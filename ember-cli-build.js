@@ -41,7 +41,8 @@ module.exports = function(defaults) {
                 enabled: process.env.EMBER_ENV !== 'development',
                 content: `
                     <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
-                    <script src="//cdnjs.cloudflare.com/ajax/libs/ember.js/2.7.1/ember.prod.js"></script>`
+                    <script src="//cdnjs.cloudflare.com/ajax/libs/ember.js/2.7.1/ember.prod.js"></script>
+                    <script src="//cdnjs.cloudflare.com/ajax/libs/mathjax/2.6.1/MathJax.js"></script>`
             }
         },
         postcssOptions: {
@@ -104,6 +105,8 @@ module.exports = function(defaults) {
         development: path.join(app.bowerDirectory, 'dropzone/dist/dropzone.css'),
         production: path.join(app.bowerDirectory, 'dropzone/dist/min/dropzone.min.css')
     });
+
+    // app.import('https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.6.1/config/Accessible-full.js');
 
     app.import(path.join(app.bowerDirectory, 'jquery.tagsinput/src/jquery.tagsinput.js'));
 

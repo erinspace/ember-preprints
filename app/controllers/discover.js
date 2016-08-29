@@ -54,6 +54,7 @@ export default Ember.Controller.extend({
         var _this = this;
         this._super(...arguments);
         this.set('facetFilters', Ember.Object.create());
+        MathJax.Hub.Config({tex2jax: {inlineMath: [['$','$'], ['\\(','\\)']]}});
         Ember.$.ajax({
             type: 'POST',
             url: this.get('searchUrl'),
