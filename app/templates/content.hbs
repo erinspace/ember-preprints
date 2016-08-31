@@ -54,6 +54,10 @@
                         </div>
                     {{/if}}
 
+                    <div>CITATION
+                        {{preprint-citation csl=model.csl}}
+                    </div>
+
                     <div class="p-t-xs">
                         <h4 class="p-v-md f-w-md">Disciplines</h4>
                         {{#each model.subjects as |subject|}}
