@@ -1,7 +1,7 @@
 import Ember from 'ember';
 
-import {CSL} from 'npm:citeproc-js-node';
 
+var BASE_URL = '/preprints/assets/';
 
 var STYLES = {
     apa: 'apa.csl',
@@ -9,17 +9,25 @@ var STYLES = {
     chicago: 'chicago-author-date.csl'
 };
 
-var makeCiteproc = function(style, citations, format) {
-    format = format || 'html';
-    var sys = {
+
+var get_sys = function(csl, locale) {
+    return {
         retrieveItem: function(id) {
-            return citations[id];
+            return csl[id];
         },
         retrieveLocale: function() {
             return locale;
         }
-    };
-    var citeproc = new CSL.Engine(sys, style); // jshint ignore:line
+    }
+};
+
+var makeCiteproc = function(style, citations, format, locale) {
+    format = format || 'html';
+
+
+    let sys = get_sys(citations, locale);
+    // debugger;
+    let citeproc = new CSL.Engine(sys, style); // jshint ignore:line
     citeproc.setOutputFormat(format);
     citeproc.appendCitationCluster({
         citationItems: Object.keys(citations).map(function(key) {
@@ -34,29 +42,27 @@ var makeCiteproc = function(style, citations, format) {
     return citeproc;
 };
 
-var formatCitation = function(style, data, format) {
-    var citeproc = makeCiteproc(style, data, format);
-    return citeproc.makeBibliography()[1];
-};
-
-
 export default Ember.Component.extend({
 
     apa: Ember.computed('csl', function() {
-        var csl = this.get('csl');
-        return formatCitation(STYLES.apa, csl, 'text');
+        return Ember.RSVP.all([
+            Ember.$.get(BASE_URL + 'locales-en-US.xml'),
+            Ember.$.get(BASE_URL + STYLES.apa),
+        ]).then((abc) => {
+            let locale = abc[0];
+            let style = abc[1];
+            let citeproc = makeCiteproc(style, this.get('csl'), 'text', locale);
+            return citeproc.makeBibliography()[1];
+        });
     }),
 
     mla: Ember.computed('csl', function() {
         var csl = this.get('csl');
-        return formatCitation(STYLES.mla, csl, 'text');
+        return csl;
     }),
 
     chicago: Ember.computed('csl', function() {
         var csl = this.get('csl');
-        return formatCitation(STYLES.chicago, csl, 'text');
+        return csl;
     })
 });
-
-
-'use strict';
