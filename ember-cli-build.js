@@ -102,6 +102,11 @@ module.exports = function(defaults) {
         destDir: 'img'
     });
 
+    // citations and citeproc
+    app.import(path.join(app.bowerDirectory, 'locales/locales-en-US.xml'), { destDir: 'assets' });
+    app.import(path.join(app.bowerDirectory, 'citeproc-js/citeproc.js'));
+    app.import('vendor/styles/apa.csl', {destDir: 'assets'});
+
     // app.import('bower_components/dropzone/dist/dropzone.js');
     app.import({
         development: path.join(app.bowerDirectory, 'dropzone/dist/dropzone.css'),
@@ -110,9 +115,7 @@ module.exports = function(defaults) {
 
     app.import(path.join(app.bowerDirectory, 'jquery.tagsinput/src/jquery.tagsinput.js'));
 
-    app.import(path.join(app.bowerDirectory, 'locales/locales-en-US.xml'));
-
-     app.import({
+    app.import({
         development: path.join(app.bowerDirectory, 'hint.css/hint.css'),
         production: path.join(app.bowerDirectory, 'hint.css/hint.css')
     });
