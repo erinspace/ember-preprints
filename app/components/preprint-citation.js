@@ -1,10 +1,6 @@
 import Ember from 'ember';
 
 import {CSL} from 'npm:citeproc-js-node';
-// import * as citeproc from "citeproc-js-node";
-
-// var citeproc = require("citeproc-js-node");
-
 
 
 var STYLES = {
@@ -12,31 +8,31 @@ var STYLES = {
     mla: 'modern-language-association.csl',
     chicago: 'chicago-author-date.csl'
 };
-//
-// var makeCiteproc = function(style, citations, format) {
-//     format = format || 'html';
-//     var sys = {
-//         retrieveItem: function(id) {
-//             return citations[id];
-//         },
-//         retrieveLocale: function() {
-//             return locale;
-//         }
-//     };
-//     var citeproc = new CSL.Engine(sys, style); // jshint ignore:line
-//     citeproc.setOutputFormat(format);
-//     citeproc.appendCitationCluster({
-//         citationItems: Object.keys(citations).map(function(key) {
-//             return {
-//                 id: key
-//             };
-//         }),
-//         properties: {
-//             noteIndex: 0
-//         }
-//     });
-//     return citeproc;
-// };
+
+var makeCiteproc = function(style, citations, format) {
+    format = format || 'html';
+    var sys = {
+        retrieveItem: function(id) {
+            return citations[id];
+        },
+        retrieveLocale: function() {
+            return locale;
+        }
+    };
+    var citeproc = new CSL.Engine(sys, style); // jshint ignore:line
+    citeproc.setOutputFormat(format);
+    citeproc.appendCitationCluster({
+        citationItems: Object.keys(citations).map(function(key) {
+            return {
+                id: key
+            };
+        }),
+        properties: {
+            noteIndex: 0
+        }
+    });
+    return citeproc;
+};
 
 var formatCitation = function(style, data, format) {
     var citeproc = makeCiteproc(style, data, format);
@@ -64,6 +60,3 @@ export default Ember.Component.extend({
 
 
 'use strict';
-
-// require('css/citations.css');
-// var locale = require('raw!../vendor/bower_components/locales/locales-en-US.xml');
