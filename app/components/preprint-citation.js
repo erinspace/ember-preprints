@@ -23,10 +23,7 @@ var get_sys = function(csl, locale) {
 
 var makeCiteproc = function(style, citations, format, locale) {
     format = format || 'html';
-
-
     let sys = get_sys(citations, locale);
-    // debugger;
     let citeproc = new CSL.Engine(sys, style); // jshint ignore:line
     citeproc.setOutputFormat(format);
     citeproc.appendCitationCluster({
@@ -47,11 +44,11 @@ export default Ember.Component.extend({
     apa: Ember.computed('csl', function() {
         return Ember.RSVP.all([
             Ember.$.get(BASE_URL + 'locales-en-US.xml'),
-            Ember.$.get(BASE_URL + STYLES.apa),
+            Ember.$.get(BASE_URL + STYLES.apa)
         ]).then((abc) => {
             let locale = abc[0];
             let style = abc[1];
-            let citeproc = makeCiteproc(style, this.get('csl'), 'text', locale);
+            let citeproc = makeCiteproc(style, this.get('csl'), 'html', locale);
             return citeproc.makeBibliography()[1];
         });
     }),
